@@ -16,22 +16,15 @@ class MainActivity : AppCompatActivity() {
         title = "${javaClass.simpleName} [taskId: $taskId]"
 
         val observer = object : LifecycleObserver {
+
             @OnLifecycleEvent(Lifecycle.Event.ON_START)
             fun onStart() {
-                Toast.makeText(
-                    applicationContext,
-                    "Task containing `ActivityA` comes to foreground!",
-                    Toast.LENGTH_SHORT
-                ).show()
+                showToast("Task containing `ActivityA` comes to foreground!")
             }
 
             @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
             fun onStop() {
-                Toast.makeText(
-                    applicationContext,
-                    "Task containing `ActivityA` goes to background!",
-                    Toast.LENGTH_SHORT
-                ).show()
+                showToast("Task containing `ActivityA` goes to background!")
             }
         }
 
@@ -48,5 +41,9 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button2).setOnClickListener {
             startActivity(Intent(applicationContext, ActivityB::class.java))
         }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 }

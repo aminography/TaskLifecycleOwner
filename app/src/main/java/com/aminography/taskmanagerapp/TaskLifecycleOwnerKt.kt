@@ -12,12 +12,13 @@ import androidx.lifecycle.LifecycleRegistry
 /**
  * @author aminography
  */
-class TaskLifecycleOwner private constructor(
+class TaskLifecycleOwnerKt private constructor(
     private val activityClass: Class<*>
 ) : Application.ActivityLifecycleCallbacks, LifecycleOwner {
 
     private var targetTaskId = -1
 
+    // ground truth counters
     private var startedCounter = 0
     private var resumedCounter = 0
 
@@ -26,6 +27,7 @@ class TaskLifecycleOwner private constructor(
 
     private val handler = Handler()
 
+    // To distinguish between screen rotation and normal lifecycle changes:
     private val delayedPauseRunnable = Runnable {
         dispatchPauseIfNeeded()
         dispatchStopIfNeeded()
@@ -130,11 +132,11 @@ class TaskLifecycleOwner private constructor(
     companion object {
         private const val TIMEOUT_MS = 700L
 
-        private var instance: TaskLifecycleOwner? = null
+        private var instance: TaskLifecycleOwnerKt? = null
 
-        fun getInstance(context: Context, activityClass: Class<*>): TaskLifecycleOwner {
+        fun getInstance(context: Context, activityClass: Class<*>): TaskLifecycleOwnerKt {
             if (instance == null) {
-                instance = TaskLifecycleOwner(activityClass).apply { attach(context) }
+                instance = TaskLifecycleOwnerKt(activityClass).apply { attach(context) }
             }
             return requireNotNull(instance)
         }
